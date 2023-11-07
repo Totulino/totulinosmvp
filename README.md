@@ -18,7 +18,7 @@ You will create a biking route optimization full stack app using React, Node/Exp
 ```bash
   DB_HOST=localhost
   DB_USER=root
-  DB_NAME=facebook
+  DB_NAME=mvp
   DB_PASS=root
 ```
 
