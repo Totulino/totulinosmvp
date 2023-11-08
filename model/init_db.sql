@@ -17,7 +17,7 @@ SET foreign_key_checks = 1;
 --     PRIMARY KEY (id)
 --     );
 
- CREATE TABLE `Trips`(
+ CREATE TABLE `trips`(
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL
 );
