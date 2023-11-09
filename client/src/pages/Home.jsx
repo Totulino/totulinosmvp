@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 export default function Home() {
   const [trips, setTrips] = useState([]);
+  const [selectedTrip, setSelectedTrip] = useState("");
 
   useEffect(() => {
     getTrips();
@@ -16,15 +17,21 @@ export default function Home() {
 
   return (
     <div>
-      <h1> Where are we going today?</h1>
-      <select>
-        <option value="text">Select a trip</option>
-        {trips.map((trip) => (
-          <option key={trip.id} value={trip.name}>
-            {trip.name}
-          </option>
-        ))}
-      </select>
+      <h2>Where are we going today?</h2>
+      <div>
+        <select
+          value={selectedTrip}
+          onChange={(e) => setSelectedTrip(e.target.value)}
+        >
+          {trips.map((trip) => (
+            <option key={trip.id} value={trip.id}>
+              {trip.name}
+            </option>
+          ))}
+        </select>
+        <Link to={`/trips/${selectedTrip}`}>Go</Link>
+      </div>
+      <Outlet />
     </div>
   );
 }

@@ -15,7 +15,9 @@ router.get("/trips", function (req, res, next) {
 router.post("/trips", async function (req, res, next) {
   const { name } = req.body;
   try {
-    await db(`INSERT INTO trips (name) VALUES ( "${name}");`);
+    await db(`INSERT INTO tri
+    
+    ps (name) VALUES ( "${name}");`);
     res.status(201).send("Trip added successfully");
   } catch (err) {
     res.status(500).send(err);

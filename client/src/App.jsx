@@ -2,19 +2,19 @@ import { useState } from "react";
 import "./App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home";
-// import Trips from "./pages/Trips";
+import Trip from "./pages/Trip";
 
 function App() {
   return (
     <>
-      Let's Bike
       <div>
         <Link to="/">Home</Link>
-        <Link to="/trips/:id"></Link>
+        <Link to="/trips}"></Link>
       </div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/trips/:id" element={<Trips />} /> */}
+        <Route path="/" element={<Home />}>
+          <Route path="/trips/:name" element={<Trip />} />
+        </Route>
       </Routes>
     </>
   );
