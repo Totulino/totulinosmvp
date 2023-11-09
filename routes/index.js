@@ -11,14 +11,18 @@ router.get("/trips", function (req, res, next) {
     .catch((err) => res.status(500).send(err));
 });
 
-//INSERT a new trip  in trips adds correctly but i need to manually fill in the id
+//INSERT
 router.post("/trips", async function (req, res, next) {
   const { name } = req.body;
   try {
-    await db(`INSERT INTO tri
-    
-    ps (name) VALUES ( "${name}");`);
-    res.status(201).send("Trip added successfully");
+    await db(`INSERT INTO trips (name) VALUES ( "${name}");`);
+    const result = await db("SELECT id FROM trips ORDER BY id DESC LIMIT 1");
+    const tripId = result.id;
+    //select from trips - order by id descending-limit results to 1
+    //grab trip id - send to client (object)
+    res
+      .status(201)
+      .json({ message: "Trip added successfully", tripId: tripId });
   } catch (err) {
     res.status(500).send(err);
   }
