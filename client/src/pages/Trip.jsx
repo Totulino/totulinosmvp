@@ -5,7 +5,7 @@ import types from "../utilities/types";
 export default function Trip() {
   const [trip, setTrip] = useState({});
   const { type_id } = useParams();
-  const [intervals, setIntervals] = useState({});
+  const [intervals, setIntervals] = useState([]);
   const [geolocation, setGeolocation] = useState({});
 
   function useInterval(callback, delay) {
@@ -77,8 +77,8 @@ export default function Trip() {
   async function getLocationAndCreateInterval(trip_id) {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
-        const interval_longitude = position.coords.latitude;
-        const interval_latitude = position.coords.longitude;
+        const interval_latitude = position.coords.latitude;
+        const interval_longitude = position.coords.longitude;
 
         createNewInterval({ interval_latitude, interval_longitude, trip_id });
       });
@@ -116,7 +116,6 @@ export default function Trip() {
           ))}
         </ul>
       </div>
-      <h2>Trip Details: </h2>
 
       <div>
         <button onClick={handleStart}>Start Biking</button>

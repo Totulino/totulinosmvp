@@ -62,4 +62,6 @@ router.post("/trips/:trip_id/intervals", async function (req, res, next) {
   }
 });
 
+// routes and DELETE
+
 module.exports = router;
