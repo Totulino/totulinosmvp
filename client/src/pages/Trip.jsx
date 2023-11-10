@@ -5,28 +5,8 @@ import types from "../utilities/types";
 export default function Trip() {
   const [trip, setTrip] = useState({});
   const { type_id } = useParams();
-  const [intervals, setIntervals] = useState([]);
+  const [intervals, setIntervals] = useState({});
   const [geolocation, setGeolocation] = useState({});
-
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
 
   async function getTrip() {
     const response = await fetch(`/api/trips`);
@@ -99,18 +79,37 @@ export default function Trip() {
   };
 
   useInterval(() => {
-    fetchIntervals();
+    getLocationAndCreateInterval();
   }, 30000);
+
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
 
   return (
     <div>
       <div>
         <h2>Trip Details: </h2>
-        <h6> Intervals </h6>
+        <h6> Intervals</h6>
         <ul>
           {intervals.map((interval) => (
             <li key={interval.id}>
-              Longitude: {interval.interval_longitude}, Lataitude:
+              Longitude: {interval.interval_longitude}, Latitude:
               {interval.interval_latitude}
             </li>
           ))}

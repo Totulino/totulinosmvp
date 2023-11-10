@@ -62,6 +62,26 @@ router.post("/trips/:trip_id/intervals", async function (req, res, next) {
   }
 });
 
-// routes and DELETE
+//Delete a trip- doesnt fully work
+router.delete("/trips/:id", async function (req, res, next) {
+  const { id } = req.params;
+  try {
+    await db(`DELETE FROM trips WHERE id = ${id} ;`);
+    res.send("Trip successfully deleted!");
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+// DELETE an interval doesnt fully work
+router.delete("/trips/:trip_id/intervals/id", async function (req, res, next) {
+  const { id } = req.params;
+  try {
+    await db(`DELETE FROM intervals WHERE id=${id}`);
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 module.exports = router;
