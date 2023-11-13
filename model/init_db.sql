@@ -24,8 +24,8 @@ SET foreign_key_checks = 1;
 CREATE TABLE `intervals`(
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `trip_id` INT NOT NULL,
-    `interval_longitude` DECIMAL(8, 2) NOT NULL,
-    `interval_latitude` DECIMAL(8, 2) NOT NULL,
+    `interval_longitude` DECIMAL(8, 6) NOT NULL,
+    `interval_latitude` DECIMAL(8, 6) NOT NULL,
     `interval_time` DATETIME NOT NULL
 );
 ALTER TABLE

@@ -3,26 +3,15 @@ import { useParams } from "react-router-dom";
 import types from "../utilities/types";
 
 export default function Trip() {
-  const [trip, setTrip] = useState({});
+  // let trip_id = null;
+  // let hasStarted = false;
+  const [trip_id, setTripId] = useState(null);
+  const [hasStarted, setHasStarted] = useState(false);
   const { type_id } = useParams();
   const [intervals, setIntervals] = useState([]);
-  // const [geolocation, setGeolocation] = useState({});
-
-  async function getTrip() {
-    const response = await fetch(`/api/trips`);
-    const data = await response.json();
-    setTrip(data);
-  }
-
-  async function getIntervals() {
-    const response = await fetch("/api/intervals");
-    const data = await response.json();
-    setIntervals(data);
-  }
 
   async function createNewTrip() {
     try {
-      //should be POST
       const response = await fetch("/api/trips/new", {
         method: "POST",
         headers: {
@@ -32,8 +21,7 @@ export default function Trip() {
           name: types[type_id],
         }),
       });
-      // data should include the id of the new trip
-      // return trip_id
+
       const result = await response.json();
       return result.trip_id;
     } catch (error) {}
@@ -41,7 +29,6 @@ export default function Trip() {
 
   async function createNewInterval(interval) {
     try {
-      //should be POST
       const response = await fetch(`/api/trips/${interval.trip_id}/intervals`, {
         method: "POST",
         headers: {
@@ -49,12 +36,12 @@ export default function Trip() {
         },
         body: JSON.stringify(interval),
       });
-      // data should include the id of the new trip
       const result = await response.json();
+      setIntervals(result);
     } catch (error) {}
   }
 
-  async function getLocationAndCreateInterval(trip_id) {
+  async function getLocationAndCreateInterval() {
     console.log("Trip ID:", trip_id);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -65,13 +52,22 @@ export default function Trip() {
       });
     }
   }
+  // const handleStart = async () => {
+  //   trip_id = await createNewTrip();
+  //   hasStarted = true;
+  // };
+
   const handleStart = async () => {
-    const trip_id = await createNewTrip();
-    getLocationAndCreateInterval(trip_id);
+    const newTripId = await createNewTrip();
+    setTripId(newTripId);
+    setHasStarted(true);
   };
 
-  // This is the code that i copied
+  // const handleStop = async () => {
+  //   hasStarted = false;
+  // };
 
+  // React hook made for me
   function useInterval(callback, delay) {
     const savedCallback = useRef();
     // Remember the latest callback.
@@ -92,24 +88,23 @@ export default function Trip() {
     // do I have to add the getLocation and Create Interval
   }
 
-  // This is what I added
   useInterval(() => {
-    getLocationAndCreateInterval(trip.trip_id); // gives errors there is no trip.trip.id when it fires up
-  }, 30000);
+    if (hasStarted) getLocationAndCreateInterval();
+  }, 5000);
 
   return (
     <div>
       <div>
         <h2>Trip Details: </h2>
-        <h6> Intervals</h6>
-        <ul>
+        <h6> These are your intervals: </h6>
+        <p>
           {intervals.map((interval) => (
             <li key={interval.id}>
               Longitude: {interval.interval_longitude}, Latitude:
               {interval.interval_latitude}
             </li>
           ))}
-        </ul>
+        </p>
       </div>
 
       <div>
@@ -117,7 +112,11 @@ export default function Trip() {
           Start Biking
         </button>
       </div>
-      <div></div>
+      <div>
+        {/* <button onClick={handleStop} type="button" className="btn btn-danger">
+          Stop Biking
+        </button> */}
+      </div>
     </div>
   );
 }

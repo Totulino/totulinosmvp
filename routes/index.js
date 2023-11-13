@@ -50,12 +50,14 @@ router.get("/intervals", function (req, res, next) {
 router.post("/trips/:trip_id/intervals", async function (req, res, next) {
   const { interval_longitude, interval_latitude } = req.body;
   const { trip_id } = req.params;
-
   try {
     await db(
       `INSERT INTO intervals (trip_id, interval_longitude, interval_latitude, interval_time) VALUES (${trip_id}, "${interval_longitude}", "${interval_latitude}", NOW())`
     );
-    res.status(201).send("Interval added successfully");
+    const results = await db(
+      `SELECT * FROM intervals WHERE trip_id=${trip_id};`
+    );
+    res.status(201).send(results.data);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -65,19 +67,9 @@ router.post("/trips/:trip_id/intervals", async function (req, res, next) {
 router.delete("/trips/:id", async function (req, res, next) {
   const { id } = req.params;
   try {
+    await db(`DELETE FROM intervals WHERE trip_id = ${id} ;`);
     await db(`DELETE FROM trips WHERE id = ${id} ;`);
     res.send("Trip successfully deleted!");
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-// DELETE an interval doesnt fully work
-router.delete("/trips/:trip_id/intervals/id", async function (req, res, next) {
-  const { id } = req.params;
-  try {
-    await db(`DELETE FROM intervals WHERE id=${id}`);
-    res.status(204).send();
   } catch (err) {
     res.status(500).send(err);
   }

@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div>
       <div className="container">
-        <h2>Where are we going today?</h2>
+        <h2>Where are we going today biker?</h2>
         <div>
           <select
             value={selectedTrip}
