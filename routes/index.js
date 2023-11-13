@@ -21,15 +21,14 @@ router.get("/trips/:id", function (req, res, next) {
     .catch((err) => res.status(500).send(err));
 });
 
-//INSERT a new trip intro trips and returns the id
+//INSERT a new trip into trip_type and returns the id
 router.post("/trips/new", async function (req, res, next) {
   const { name } = req.body;
   try {
     //select from trips - order by id descending-limit results to 1
     await db(`INSERT INTO trips (name) VALUES ( "${name}");`);
     const result = await db("SELECT id FROM trips ORDER BY id DESC LIMIT 1");
-    //grab trip id - send to client (object)
-    // const trip_id = result.id;
+    //grab trip id - send to client as an object
     res
       .status(201)
       .send({ trip_id: result.data[0].id, msg: "Trip added successfully" });

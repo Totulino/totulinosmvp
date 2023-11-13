@@ -5,8 +5,8 @@ import types from "../utilities/types";
 export default function Trip() {
   const [trip, setTrip] = useState({});
   const { type_id } = useParams();
-  const [intervals, setIntervals] = useState({});
-  const [geolocation, setGeolocation] = useState({});
+  const [intervals, setIntervals] = useState([]);
+  // const [geolocation, setGeolocation] = useState({});
 
   async function getTrip() {
     const response = await fetch(`/api/trips`);
@@ -55,6 +55,7 @@ export default function Trip() {
   }
 
   async function getLocationAndCreateInterval(trip_id) {
+    console.log("Trip ID:", trip_id);
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const interval_latitude = position.coords.latitude;
@@ -68,19 +69,8 @@ export default function Trip() {
     const trip_id = await createNewTrip();
     getLocationAndCreateInterval(trip_id);
   };
-  const fetchIntervals = async () => {
-    try {
-      const response = await fetch("/api/intervals");
-      const data = await response.json();
-      setIntervals(data);
-    } catch (error) {
-      console.error("Error fetching intervals:", error);
-    }
-  };
 
-  useInterval(() => {
-    getLocationAndCreateInterval();
-  }, 30000);
+  // This is the code that i copied
 
   function useInterval(callback, delay) {
     const savedCallback = useRef();
@@ -99,7 +89,13 @@ export default function Trip() {
         return () => clearInterval(id);
       }
     }, [delay]);
+    // do I have to add the getLocation and Create Interval
   }
+
+  // This is what I added
+  useInterval(() => {
+    getLocationAndCreateInterval(trip.trip_id); // gives errors there is no trip.trip.id when it fires up
+  }, 30000);
 
   return (
     <div>
@@ -117,7 +113,9 @@ export default function Trip() {
       </div>
 
       <div>
-        <button onClick={handleStart}>Start Biking</button>
+        <button onClick={handleStart} type="button" className="btn btn-success">
+          Start Biking
+        </button>
       </div>
       <div></div>
     </div>

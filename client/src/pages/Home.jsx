@@ -13,22 +13,28 @@ export default function Home() {
 
   return (
     <div>
-      <h2>Where are we going today?</h2>
-      <div>
-        <select
-          value={selectedTrip}
-          onChange={(e) => setSelectedTrip(e.target.value)}
-        >
-          {Object.keys(types).map((tripType) => (
-            <option key={tripType} value={tripType}>
-              {types[tripType]}
-            </option>
-          ))}
-        </select>
-        <Link to={`/trips/new/${selectedTrip}`}>Go</Link>
+      <div className="container">
+        <h2>Where are we going today?</h2>
+        <div>
+          <select
+            value={selectedTrip}
+            onChange={(e) => setSelectedTrip(e.target.value)}
+          >
+            {Object.keys(types).map((tripType) => (
+              <option key={tripType} value={tripType}>
+                {types[tripType]}
+              </option>
+            ))}
+          </select>
+          <Link to={`/trips/new/${selectedTrip}`}>
+            <button type="button" className="btn btn-primary btn-sm">
+              Go
+            </button>
+          </Link>
+        </div>
+        <div></div>
+        <Outlet />
       </div>
-      <div></div>
-      <Outlet />
     </div>
   );
 }
