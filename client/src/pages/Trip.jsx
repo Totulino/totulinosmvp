@@ -72,20 +72,6 @@ export default function Trip() {
     <div className="container mt-4">
       <div className="row">
         <div className="col-md-8">
-          <h2>{`Trip number: ${trip_id}`}</h2>
-
-          {hasStarted && <h6>These are your intervals:</h6>}
-
-          <p>
-            {intervals.map((interval) => (
-              <li key={interval.id}>
-                Longitude: {interval.interval_longitude}, Latitude:
-                {interval.interval_latitude}
-              </li>
-            ))}
-          </p>
-        </div>
-        <div className="col-md-4">
           <div className="row">
             <div className="col-md-6">
               <button
@@ -107,7 +93,7 @@ export default function Trip() {
             </div>
           </div>
           {!hasStarted && (
-            <div className="row">
+            <div className="row mt-2">
               <div className="col-md-12">
                 <button
                   onClick={handleResume}
@@ -119,8 +105,21 @@ export default function Trip() {
               </div>
             </div>
           )}
-          {/* <Map intervals={intervals} /> */}
+
+          <h2 className="mt-4">{`Trip number: ${trip_id}`}</h2>
+
+          {hasStarted && <h6>These are your intervals:</h6>}
+
+          <ul>
+            {intervals.map((interval) => (
+              <li key={interval.id}>
+                Longitude: {interval.interval_longitude}, Latitude:
+                {interval.interval_latitude}
+              </li>
+            ))}
+          </ul>
         </div>
+        <div className="col-md-4">{/* <Map intervals={intervals} /> */}</div>
       </div>
     </div>
   );

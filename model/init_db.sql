@@ -7,15 +7,7 @@ DROP TABLE if exists trips;
 DROP TABLE if exists intervals;
 SET foreign_key_checks = 1;
 
---
--- Create Tables
---
 
--- CREATE TABLE routes(
---     id INT NOT NULL AUTO_INCREMENT, 
---     routes VARCHAR(40) not null, 
---     PRIMARY KEY (id)
---     );
 
  CREATE TABLE `trips`(
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

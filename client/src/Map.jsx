@@ -1,8 +1,10 @@
+// // MapComponent.js
 // import React, { useEffect, useState } from "react";
+// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 // import L from "leaflet";
-// import "leaflet/dist/leaflet.css";
+// L.Icon.Default.imagePath = "/path/to/leaflet/images/";
 
-// const MapComponent = ({ intervals }) => {
+// const Map = ({ intervals }) => {
 //   const [mapId] = useState(`map-${Math.random()}`);
 
 //   useEffect(() => {
@@ -28,7 +30,28 @@
 //     });
 //   }, [intervals, mapId]);
 
-//   return <div id={mapId} style={{ height: "400px" }} />;
+//   return (
+//     <div id={mapId} style={{ height: "400px" }}>
+//       <MapContainer
+//         center={[0, 0]}
+//         zoom={2}
+//         style={{ height: "100%", width: "100%" }}
+//       >
+//         <TileLayer
+//           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+//           attribution='Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+//         />
+//         {intervals.map((interval, index) => (
+//           <Marker
+//             key={index}
+//             position={[interval.interval_latitude, interval.interval_longitude]}
+//           >
+//             <Popup>{`Interval ${index + 1}`}</Popup>
+//           </Marker>
+//         ))}
+//       </MapContainer>
+//     </div>
+//   );
 // };
 
-// export default MapComponent;
+// export default Map;

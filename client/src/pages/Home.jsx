@@ -14,8 +14,12 @@ export default function Home() {
   return (
     <div className="container-fluid">
       <div className="row justify-content-start mt-3 ml-3">
-        <div className="col-md-6">
+        <div className="col-md-8">
           <h2>Where are we going today, biker?</h2>
+        </div>
+      </div>
+      <div className="row justify-content-start mt-3 ml-3">
+        <div className="col-md-8">
           <div className="mb-3">
             <select
               value={selectedTrip}
@@ -28,6 +32,7 @@ export default function Home() {
                 </option>
               ))}
             </select>
+
             <Link
               to={`/trips/new/${selectedTrip}`}
               className="btn btn-primary btn-sm ml-2"
@@ -36,6 +41,10 @@ export default function Home() {
             </Link>
           </div>
         </div>
+        <marquee>
+          🚴‍♀️ 🚴‍♀️🍅 🚴‍♀️ 🚴‍♀️ 🚴‍♀️ 🚴‍♀️ 🚴‍♀️ 🚴‍♀️ 🍅🚴‍♀️ 🚴🏾‍♀️ 🚴‍♀️ 🚴‍♀️ 🚴🏾‍♀️ 🚴‍♀️ 🚴🏾‍♀️🍅 🚴‍♀️ 🚴‍♀️ 🚴‍♀️ 🚴‍♀️ 🚴‍♀️ 🚴‍♀️
+          🚴‍♀️ 🚴‍♀️ 🚴‍♀️{" "}
+        </marquee>
       </div>
       <Outlet />
     </div>
