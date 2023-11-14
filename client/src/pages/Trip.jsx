@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import types from "../utilities/types";
 import useInterval from "../hooks/useInterval";
-import Map from "../Map";
+// import Map from "../Map";
 
 let trip_id = null;
 export default function Trip() {
@@ -119,7 +119,7 @@ export default function Trip() {
               </div>
             </div>
           )}
-          <Map intervals={intervals} />
+          {/* <Map intervals={intervals} /> */}
         </div>
       </div>
     </div>
