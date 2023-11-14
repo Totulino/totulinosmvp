@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import types from "../utilities/types";
+import useInterval from "../hooks/useInterval";
+import Map from "../Map";
 
+let trip_id = null;
 export default function Trip() {
-  // let trip_id = null;
-  // let hasStarted = false;
-  const [trip_id, setTripId] = useState(null);
   const [hasStarted, setHasStarted] = useState(false);
   const { type_id } = useParams();
   const [intervals, setIntervals] = useState([]);
@@ -28,6 +28,7 @@ export default function Trip() {
   }
 
   async function createNewInterval(interval) {
+    console.log("new interval", interval);
     try {
       const response = await fetch(`/api/trips/${interval.trip_id}/intervals`, {
         method: "POST",
@@ -52,70 +53,74 @@ export default function Trip() {
       });
     }
   }
-  // const handleStart = async () => {
-  //   trip_id = await createNewTrip();
-  //   hasStarted = true;
-  // };
-
   const handleStart = async () => {
-    const newTripId = await createNewTrip();
-    setTripId(newTripId);
+    trip_id = await createNewTrip();
+    console.log(trip_id);
     setHasStarted(true);
   };
-
-  // const handleStop = async () => {
-  //   hasStarted = false;
-  // };
-
-  // React hook made for me
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-    // do I have to add the getLocation and Create Interval
-  }
-
+  const handleStop = async () => {
+    setHasStarted(false);
+  };
+  const handleResume = async () => {
+    setHasStarted(true);
+  };
   useInterval(() => {
     if (hasStarted) getLocationAndCreateInterval();
   }, 5000);
 
   return (
-    <div>
-      <div>
-        <h2>Trip Details: </h2>
-        <h6> These are your intervals: </h6>
-        <p>
-          {intervals.map((interval) => (
-            <li key={interval.id}>
-              Longitude: {interval.interval_longitude}, Latitude:
-              {interval.interval_latitude}
-            </li>
-          ))}
-        </p>
-      </div>
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-8">
+          <h2>{`Trip number: ${trip_id}`}</h2>
 
-      <div>
-        <button onClick={handleStart} type="button" className="btn btn-success">
-          Start Biking
-        </button>
-      </div>
-      <div>
-        {/* <button onClick={handleStop} type="button" className="btn btn-danger">
-          Stop Biking
-        </button> */}
+          {hasStarted && <h6>These are your intervals:</h6>}
+
+          <p>
+            {intervals.map((interval) => (
+              <li key={interval.id}>
+                Longitude: {interval.interval_longitude}, Latitude:
+                {interval.interval_latitude}
+              </li>
+            ))}
+          </p>
+        </div>
+        <div className="col-md-4">
+          <div className="row">
+            <div className="col-md-6">
+              <button
+                onClick={handleStart}
+                type="button"
+                className="btn btn-success btn-block"
+              >
+                Start Biking
+              </button>
+            </div>
+            <div className="col-md-6">
+              <button
+                onClick={handleStop}
+                type="button"
+                className="btn btn-danger btn-block"
+              >
+                Stop Biking
+              </button>
+            </div>
+          </div>
+          {!hasStarted && (
+            <div className="row">
+              <div className="col-md-12">
+                <button
+                  onClick={handleResume}
+                  type="button"
+                  className="btn btn-warning btn-block"
+                >
+                  Resume Biking
+                </button>
+              </div>
+            </div>
+          )}
+          <Map intervals={intervals} />
+        </div>
       </div>
     </div>
   );

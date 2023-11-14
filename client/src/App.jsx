@@ -6,17 +6,22 @@ import Trip from "./pages/Trip";
 
 function App() {
   return (
-    <>
-      <div>
-        <Link to="/">Home</Link>
-        {/* <Link to="/trips/new/:type_id"></Link> */}
+    <div className="container-fluid">
+      <div className="row justify-content-center mt-3">
+        <div className="col-md-6"></div>
+        <div>
+          <Link to="/" className="btn btn-dark btn-sm">
+            Home{" "}
+          </Link>
+          {/* <Link to="/trips/new/:type_id"></Link> */}
+        </div>
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route path="/trips/new/:type_id" element={<Trip />} />
+          </Route>
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route path="/trips/new/:type_id" element={<Trip />} />
-        </Route>
-      </Routes>
-    </>
+    </div>
   );
 }
 export default App;

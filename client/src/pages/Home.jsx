@@ -12,29 +12,32 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <div className="container">
-        <h2>Where are we going today biker?</h2>
-        <div>
-          <select
-            value={selectedTrip}
-            onChange={(e) => setSelectedTrip(e.target.value)}
-          >
-            {Object.keys(types).map((tripType) => (
-              <option key={tripType} value={tripType}>
-                {types[tripType]}
-              </option>
-            ))}
-          </select>
-          <Link to={`/trips/new/${selectedTrip}`}>
-            <button type="button" className="btn btn-primary btn-sm">
+    <div className="container-fluid">
+      <div className="row justify-content-start mt-3 ml-3">
+        <div className="col-md-6">
+          <h2>Where are we going today, biker?</h2>
+          <div className="mb-3">
+            <select
+              value={selectedTrip}
+              onChange={(e) => setSelectedTrip(e.target.value)}
+              className="form-control"
+            >
+              {Object.keys(types).map((tripType) => (
+                <option key={tripType} value={tripType}>
+                  {types[tripType]}
+                </option>
+              ))}
+            </select>
+            <Link
+              to={`/trips/new/${selectedTrip}`}
+              className="btn btn-primary btn-sm ml-2"
+            >
               Go
-            </button>
-          </Link>
+            </Link>
+          </div>
         </div>
-        <div></div>
-        <Outlet />
       </div>
+      <Outlet />
     </div>
   );
 }
